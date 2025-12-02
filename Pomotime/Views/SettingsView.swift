@@ -11,9 +11,6 @@ struct SettingsView: View {
     @Environment(\.colorScheme) private var colorScheme
     @EnvironmentObject var timers: Timers
 
-    @State private var isEditingWork = false
-    @State private var isEditingShort = false
-    @State private var isEditingLong = false
 
     private var titleBarColor: Color {
         if colorScheme == .light {
@@ -45,7 +42,7 @@ struct SettingsView: View {
             GlassEffectContainer() {
                 Spacer(minLength: 25)
                     .navigationTitle("Settings")
-//                    .toolbarColorScheme(.dark, for: .navigationBar)
+                //                    .toolbarColorScheme(.dark, for: .navigationBar)
                     .toolbarBackground(titleBarColor, for: .navigationBar)
                     .toolbarBackground(.visible, for: .navigationBar)
                 ScrollView {
@@ -54,7 +51,7 @@ struct SettingsView: View {
                         glassSlider(
                             value: $timers.workSession,
                             title: "Work Session",
-                            range: 15...60,
+                            range: 15...60, //15
                             step: 5,
                             tint: .green,
                             backgorund: .clear
@@ -75,7 +72,7 @@ struct SettingsView: View {
                         glassSlider(
                             value: $timers.longBreak,
                             title: "Long Break",
-                            range: 20...45,
+                            range: 20...45, //20
                             step: 5,
                             tint: .orange,
                             backgorund: .clear
@@ -101,6 +98,24 @@ struct SettingsView: View {
                         .frame(maxWidth: .infinity ,alignment: .center)
                         .listRowBackground(Color.clear)
                         .listRowInsets(EdgeInsets())
+                        .overlay(alignment: .bottom) {
+                           
+                            Text("🐖 Brother may i have some oats? 🐖 ")
+                                .frame(maxWidth: .infinity)
+                                .padding(.top, 500)
+                                .background(.clear)
+                                .offset(y: 350) // Push below content so it reveals only when overscrolling
+//                                .overlay(alignment: .bottom) {
+//                                    Image("pigsOats")
+//                                        .offset(y: 350) // Push below content so it reveals only when overscrolling
+//                                        .frame(width: 120)
+//                                    
+//                                }
+                            
+                        }
+                    
+                        
+                        
                     }
                     .padding(.horizontal, 16)
                     .padding(.vertical, 16)
@@ -114,6 +129,6 @@ struct SettingsView: View {
 
 
 #Preview {
-    SettingsView().environmentObject(Timers())
+    ContentView()
 }
 

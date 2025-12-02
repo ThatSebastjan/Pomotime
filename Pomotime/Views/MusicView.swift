@@ -10,6 +10,7 @@ import MusicKit
 import Combine
 
 struct MusicView: View {
+        
     @State private var authorizationStatus: MusicAuthorization.Status = .notDetermined
     @State private var isPresentingPlaylistPicker = false
     @State private var selectedPlaylist: Playlist?
@@ -23,202 +24,288 @@ struct MusicView: View {
     private let player = ApplicationMusicPlayer.shared
     
     private let musicColor: Color = Color(r: 255, g: 4, b: 54)
+    
+#if targetEnvironment(macCatalyst)
+    
+    private let baseSize: CGFloat = 300
+    
+    private let basePadding: CGFloat = 18
+    
+    private func sizeMultiplier(for width: CGFloat) -> CGFloat {
+       
+        
+         if width < 380 {
+             return 0.6
+         }
+        
+        if width < 400 {
+            return 0.75
+        }
+        
+        if width < 410 {
+            return 1
+        }
+        
+        if width < 500 {
+            return 1.8
+        }
+        
+        return 2
+    }
+
+#endif // targetEnvironment(macCatalyst)
+
+#if os(iOS)
+
+    private let baseSize: CGFloat = 300
+    
+    private let basePadding: CGFloat = 18
+    
+    private func sizeMultiplier(for width: CGFloat) -> CGFloat {
+       
+        
+         if width < 380 {
+             return 0.6
+         }
+        
+        if width < 400 {
+            return 0.75
+        }
+        
+        if width < 440 {
+            return 1
+        }
+        
+        if width < 500 {
+            return 1.1
+        }
+        
+        return 2
+    }
+    
+#endif
+
+    
+    private func debugWidth(for width: CGFloat) -> CGFloat {
+        return width
+    }
+
 
     var body: some View {
-        NavigationStack {
-            Spacer(minLength: 64)
-            VStack(spacing: 20) {
-                Group {
-                    if let playlist = selectedPlaylist {
-                        VStack(spacing: 8) {
-                            if let url = currentArtworkURL {
-                                AsyncImage(url: url) { phase in
-                                    switch phase {
-                                    case .empty:
-                                        ProgressView()
-                                            .frame(width: 320, height: 320)
-                                    case .success(let image):
-                                        image
-                                            .resizable()
-                                            .scaledToFill()
-                                            .frame(width: 320, height: 320)
-                                            .glassEffect(
-                                                .regular.interactive(),
-                                                in: .rect(cornerRadius: 28.0)
-                                            )
-                                            .clipShape(
-                                                RoundedRectangle(
-                                                    cornerRadius: 28
+        GeometryReader { proxy in
+            let scaledBaseSize = baseSize * sizeMultiplier(for: proxy.size.width)
+            let scaledPadding = basePadding * sizeMultiplier(for: proxy.size.width)
+//            var debug: String = String(format: "Debug width %.2f", debugWidth(for: proxy.size.width))
+            NavigationStack {
+                VStack(spacing: 20) {
+                    Group {
+                        if let playlist = selectedPlaylist {
+                            VStack(spacing: 8) {
+                                if let url = currentArtworkURL {
+                                    AsyncImage(url: url) { phase in
+                                        switch phase {
+                                        case .empty:
+                                            ProgressView()
+                                                .frame(
+                                                    width: scaledBaseSize,
+                                                    height: scaledBaseSize
                                                 )
-                                            )
-                                    case .failure:
-                                        RoundedRectangle(cornerRadius: 16)
-                                            .fill(Color.secondary.opacity(0.2))
-                                            .frame(width: 160, height: 160)
-                                            .overlay(
-                                                Image(systemName: "music.note")
-                                                    .font(.largeTitle)
-                                                    .foregroundStyle(.secondary)
-                                            )
-                                    @unknown default:
-                                        EmptyView()
+                                        case .success(let image):
+                                            image
+                                                .resizable()
+                                                .scaledToFill()
+                                                .frame(
+                                                    width: scaledBaseSize,
+                                                    height: scaledBaseSize
+                                                )
+                                                .glassEffect(
+                                                    .regular.interactive(),
+                                                    in: .rect(cornerRadius: 28.0)
+                                                )
+                                                .clipShape(
+                                                    RoundedRectangle(
+                                                        cornerRadius: 28
+                                                    )
+                                                )
+                                        case .failure:
+                                            RoundedRectangle(cornerRadius: 16)
+                                                .fill(Color.secondary.opacity(0.2))
+                                                .frame(
+                                                    width: scaledBaseSize,
+                                                    height: scaledBaseSize
+                                                )
+                                                .overlay(
+                                                    Image(systemName: "music.note")
+                                                        .font(.largeTitle)
+                                                        .foregroundStyle(.secondary)
+                                                )
+                                        @unknown default:
+                                            EmptyView()
+                                        }
                                     }
+                                    .padding(.bottom, 8)
                                 }
-                                .padding(.bottom, 8)
-                            }
-                     
-                            Text(playlist.name)
-                                .font(.headline)
-                                .foregroundStyle(.secondary)
-                                .multilineTextAlignment(.center)
-                                .padding(8)
-                            if !currentEntryTitle.isEmpty {
-                                Text(currentEntryTitle)
-                                    .font(.subheadline)
-                                    .padding(8)
-                                    .foregroundStyle(.primary)
+                         
+                                Text(playlist.name)
+                                    .font(.headline)
+                                    .foregroundStyle(.secondary)
                                     .multilineTextAlignment(.center)
+                                    .padding(8)
+                                if !currentEntryTitle.isEmpty {
+                                    Text(currentEntryTitle)
+                                        .font(.subheadline)
+                                        .padding(8)
+                                        .foregroundStyle(.primary)
+                                        .multilineTextAlignment(.center)
+                                }
                             }
+                            .padding(.horizontal)
+                        } else {
+                            Image(systemName: "music.note")
+                                .font(
+                                    .system(
+                                        size: 140,
+                                        weight: .regular,
+                                        design: .default
+                                    )
+                                )
+                                .frame(width: scaledBaseSize, height: scaledBaseSize)
+                                .glassEffect(
+                                    .clear.tint(musicColor).interactive(),
+                                    in: .rect(cornerRadius: 28.0)
+                                )
+                                .padding(.top, 32)
+//                            Text(debug)
+//                                .font(Font.default.bold())
+//                                .foregroundStyle(.primary)
+                            Text("No playlist selected")
+                                .foregroundColor(.secondary)
+                                .padding(6)
                         }
-                        .padding(.horizontal)
-                    } else {
-                        Image(systemName: "music.note")
-                            .font(.system(size: 140, weight: .regular, design: .default))
-                            .frame(width: 320, height: 320)
-                            .glassEffect(
-                                .clear.tint(musicColor).interactive(),
-                                in: .rect(cornerRadius: 28.0)
+                    }
+
+                    HStack(spacing: 24) {
+                        Button {
+                            Task { await skipBackward() }
+                        } label: {
+                            Image(systemName: "backward.fill")
+                                .font(.title2)
+                        }
+                        .disabled(selectedPlaylist == nil)
+                        .controlSize(.large)
+
+
+                        Button {
+                            Task { await togglePlayPause() }
+                        } label: {
+                            Image(
+                                systemName: isPlaying ? "pause.fill" : "play.fill"
                             )
-                        Text("No playlist selected")
-                            .foregroundColor(.secondary)
-                            .padding(16)
-                            .glassEffect(.regular.interactive())
+                            .font(.title)
+                        }
+                        .disabled(selectedPlaylist == nil)
+                        .controlSize(.large)
+
+
+                        Button {
+                            Task { await skipForward() }
+                        } label: {
+                            Image(systemName: "forward.fill")
+                                .font(.title2)
+                        }
+                        .disabled(selectedPlaylist == nil)
+                        .controlSize(.large)
                     }
-                }
+                    .padding(scaledPadding)
+                    .glassEffect(.regular.interactive())
 
-                HStack(spacing: 24) {
-                    Button {
-                        Task { await skipBackward() }
-                    } label: {
-                        Image(systemName: "backward.fill")
-                            .font(.title2)
-                    }
-                    .disabled(selectedPlaylist == nil)
-                    .controlSize(.large)
+                    HStack(spacing: 24) {
+                        Button {
+                            Task { await toggleShuffle() }
+                        } label: {
+                            Image(systemName: "shuffle")
+                                .symbolRenderingMode(.multicolor)
+                                .font(.title3)
+                                .foregroundColor(
+                                    shuffleMode == .off ? .primary : musicColor
+                                )
+                        }
+                        .buttonStyle(.glass)
+                        .controlSize(.regular)
+                        .disabled(selectedPlaylist == nil)
+                        .listRowBackground(Color.clear)
+                        .listRowInsets(EdgeInsets())
 
-
-                    Button {
-                        Task { await togglePlayPause() }
-                    } label: {
-                        Image(
-                            systemName: isPlaying ? "pause.fill" : "play.fill"
-                        )
-                        .font(.title)
-                    }
-                    .disabled(selectedPlaylist == nil)
-                    .controlSize(.large)
-
-
-                    Button {
-                        Task { await skipForward() }
-                    } label: {
-                        Image(systemName: "forward.fill")
-                            .font(.title2)
-                    }
-                    .disabled(selectedPlaylist == nil)
-                    .controlSize(.large)
-                }
-                .padding(24)
-                .glassEffect(.regular.interactive())
-
-                HStack(spacing: 24) {
-                    Button {
-                        Task { await toggleShuffle() }
-                    } label: {
-                        Image(systemName: "shuffle")
+                        Button {
+                            Task { await cycleRepeatMode() }
+                        } label: {
+                            Group {
+                                switch repeatMode {
+                                case .none:
+                                    Image(systemName: "repeat")
+                                case .all:
+                                    Image(systemName: "repeat")
+                                        .foregroundStyle(musicColor)
+                                case .one:
+                                    Image(systemName: "repeat.1")
+                                        .foregroundStyle(musicColor)
+                                @unknown default:
+                                    Image(systemName: "repeat")
+                                }
+                            }
                             .symbolRenderingMode(.multicolor)
                             .font(.title3)
                             .foregroundColor(
-                                shuffleMode == .off ? .primary : musicColor
+                                repeatMode == .none ? .primary : Color.blue
                             )
+                        }
+                        .buttonStyle(.glass)
+                        .controlSize(.regular)
+
+                        .disabled(selectedPlaylist == nil)
+                        .listRowBackground(Color.clear)
+                        .listRowInsets(EdgeInsets())
                     }
-                    .buttonStyle(.glass)
-                    .controlSize(.large)
-                    .disabled(selectedPlaylist == nil)
-                    .padding(8)
-                    .listRowBackground(Color.clear)
-                    .listRowInsets(EdgeInsets())
+
+                    if let errorMessage {
+                        Text(errorMessage)
+                            .font(.footnote)
+                            .foregroundStyle(.red)
+                            .multilineTextAlignment(.center)
+                            .padding(.horizontal)
+                    }
 
                     Button {
-                        Task { await cycleRepeatMode() }
+                        Task { await presentOrRequestMusicAccess() }
                     } label: {
-                        Group {
-                            switch repeatMode {
-                            case .none:
-                                Image(systemName: "repeat")
-                            case .all:
-                                Image(systemName: "repeat")
-                                    .foregroundStyle(musicColor)
-                            case .one:
-                                Image(systemName: "repeat.1")
-                                    .foregroundStyle(musicColor)
-                            @unknown default:
-                                Image(systemName: "repeat")
-                            }
-                        }
-                        .symbolRenderingMode(.multicolor)
-                        .font(.title3)
-                        .foregroundColor(
-                            repeatMode == .none ? .primary : Color.blue
+                        Label(
+                            authorizationStatus == .authorized ? "Choose Playlist" : "Connect Apple Music",
+                            systemImage: "music.note"
                         )
                     }
-                    .buttonStyle(.glass)
-                    .controlSize(.large)
-
-                    .disabled(selectedPlaylist == nil)
-                    .padding(8)
-                    .listRowBackground(Color.clear)
-                    .listRowInsets(EdgeInsets())
-                }
-
-                if let errorMessage {
-                    Text(errorMessage)
-                        .font(.footnote)
-                        .foregroundStyle(.red)
-                        .multilineTextAlignment(.center)
-                        .padding(.horizontal)
-                }
-
-                Button {
-                    Task { await presentOrRequestMusicAccess() }
-                } label: {
-                    Label(
-                        authorizationStatus == .authorized ? "Choose Playlist" : "Connect Apple Music",
-                        systemImage: "music.note"
-                    )
-                }
-                .buttonStyle(.glassProminent)
-                .padding(.horizontal)
-                .padding(.bottom, 32)
-                .sheet(isPresented: $isPresentingPlaylistPicker) {
-                    PlaylistPickerView { playlist in
-                        isPresentingPlaylistPicker = false
-                        Task { await loadAndPlay(playlist: playlist) }
+                    .buttonStyle(.glassProminent)
+                    .padding(.horizontal)
+                    .padding(.bottom, 32)
+                    .sheet(isPresented: $isPresentingPlaylistPicker) {
+                        PlaylistPickerView { playlist in
+                            isPresentingPlaylistPicker = false
+                            Task { await loadAndPlay(playlist: playlist) }
+                        }
                     }
                 }
-            }
-            .navigationTitle("Music")
-            .toolbarBackground(Color(r:255, g:4, b:54), for: .navigationBar)
-            .toolbarBackground(.visible, for: .navigationBar)
-            .task { await refreshAuthorization() }
-            .task {
-                // Lightweight polling to reflect playback changes
-                for await _ in Timer
-                    .publish(every: 1.0, on: .main, in: .common)
-                    .autoconnect().values {
-                    await updatePlaybackState()
-                    await updateNowPlayingInfo()
-                    await updatePlaybackModes()
+                .navigationTitle("Music")
+                .toolbarBackground(Color(r:255, g:4, b:54), for: .navigationBar)
+                .toolbarBackground(.visible, for: .navigationBar)
+                .task { await refreshAuthorization() }
+                .task {
+                    // Lightweight polling to reflect playback changes
+                    for await _ in Timer
+                        .publish(every: 1.0, on: .main, in: .common)
+                        .autoconnect().values {
+                        await updatePlaybackState()
+                        await updateNowPlayingInfo()
+                        await updatePlaybackModes()
+                    }
                 }
             }
         }
@@ -483,6 +570,10 @@ private struct ArtworkImage: View {
                 Image(systemName: "music.note").foregroundStyle(.secondary)
             )
     }
+}
+
+#Preview{
+    ContentView()
 }
 
 #Preview{
