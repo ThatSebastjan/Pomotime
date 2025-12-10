@@ -45,7 +45,7 @@ Prostorska zahtevnost je za Catalyst aplikacije običajno nekoliko višja kot pr
 ## Primeri uporabe
 Mac Catalyst je odlična izbira, ko imamo že dodelano aplikacijo za iOS in bi jo z minimalnimi spremembami radi predelali za MacOS.
 
-Tako sem tudi jaz svojo mobilno aplikacijo Pomotime s Catalys-om prilagodil za delovanje na računalniku.
+Tako sem tudi jaz svojo mobilno aplikacijo Pomotime s Catalyst-om prilagodil za delovanje na računalniku.
 
 | ![](Examples/iPhoneApp.png)  | ![](Examples/iPadApp.png)  |  ![](Examples/MacApp.png) |
 |---|---|---|
