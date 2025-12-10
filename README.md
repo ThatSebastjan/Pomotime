@@ -11,12 +11,6 @@ Za razvoj UI se na iOS/iPadOS aplikacijah uporablja ogrodje UIKit, ki pa kot tak
 
 Mac Catalyst je torej tehnologija, ki omogoča razvijalcu razvoj aplikaciije za iOS in MacOS z minimalnimi spremembami kode brez popolne reimplementacije grafičnega vmesnika za posamezne platforme.
 
-## Zakaj Mac Catalyst
-
-Že dalj časa me je zanimal razvoj za Apple platforme, predvsem jezik Swift, ki se mi zdi da je zasnovan, da je zelo prijazen za razvojalce in je v tem trenutku lahko uporabljen za tako back end kot tudi front end aplikacij. Catalyst pa se je kot del tega razvojnega okolja izkazal še za posebej zanimivo in uporabno orodje, ki lahko razvijalcu znatno olajša delo.
-
-S tem namenom sem se poglobil v razumevanje delovanja in uporabe tega orodja.
-
 ## Prednosti
 - Hitrejši razvoj za več platform
 - Enotna kodna baza za vse platforme, posledično lažje vzdrževanje
