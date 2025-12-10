@@ -34,7 +34,7 @@ Mac Catalyst je del [Apple Developer Program License Agreement](https://develope
 
 ## Število uporabnikov
 
-V letu 2025 je Mac Catalyst [uporabljalo 6.7 miljona](https://rentamac.io/ios-app-development-statistics/) razvijalcev.
+V letu 2025 je Mac Catalyst [uporabljala skoraj četrtina](https://rentamac.io/ios-app-development-statistics/) pri Applu registriranih razvijalcev.
 
 ## Časovna in prostorska zahtevnost
 
