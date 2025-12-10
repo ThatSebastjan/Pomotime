@@ -13,7 +13,7 @@ Mac Catalyst je torej tehnologija, ki omogoča razvijalcu razvoj aplikaciije za 
 
 ## Zakaj Mac Catalyst
 
-Že dalj časa sem me je zanimal razvoj za Apple platforme, predvsem jezik Swift, ki se mi zdi da je zasnovan, da je zelo prijazen za razvojalce in je v tem trenutku lahko uporabljen za tako back end kot tudi front end aplikacij. Catalyst pa se je kot del tega razvojnega okolja izkazal še za posebej zanimivo in uporabno orodje, ki lahko razvijalcu znatno olajša delo.
+Že dalj časa me je zanimal razvoj za Apple platforme, predvsem jezik Swift, ki se mi zdi da je zasnovan, da je zelo prijazen za razvojalce in je v tem trenutku lahko uporabljen za tako back end kot tudi front end aplikacij. Catalyst pa se je kot del tega razvojnega okolja izkazal še za posebej zanimivo in uporabno orodje, ki lahko razvijalcu znatno olajša delo.
 
 S tem namenom sem se poglobil v razumevanje delovanja in uporabe tega orodja.
 
@@ -55,7 +55,7 @@ Mac Catalyst se lahko doda preko nastavitev projekta kot nova destinacija za dep
 
 Vidimo da čeprav je aplkacija grajena za MacOS, Catalyst uporablja SDK namenjen razvoju na iOS.
 
-Ker je pogosto uporabniški vmesknik ali druge funkcionslnosti aplikacije vseeno potrebno prilagoditi lahko za to uporabimo direktiva prevajalnika, npr. `#if targetEnvironment(macCatalyst)`
+Ker je pogosto uporabniški vmesknik ali druge funkcionslnosti aplikacije vseeno potrebno prilagoditi lahko za to uporabimo direktive prevajalnika, npr. `#if targetEnvironment(macCatalyst)`
 
 Primer v kodi:
 
