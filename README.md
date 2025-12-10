@@ -36,6 +36,11 @@ Mac Catalyst je del [Apple Developer Program License Agreement](https://develope
 
 V letu 2025 je Mac Catalyst [uporabljalo 6.7 miljona](https://rentamac.io/ios-app-development-statistics/) razvijalcev.
 
+## Časovna in prostorska zahtevnost
+
+Časovna zahtevnost izvajanja programske logike Mac Catalyst aplikacije se bistveno ne razlikuje od tiste, ki je bila v celoti napisana z AppKit ogrodjem za Mac. Njeno dejansko hitrost izvajanja določa predvsem zmogljivost strojne opreme.
+
+Prostorska zahtevnost je za Catalyst aplikacije običajno nekoliko višja kot pri AppKit aplikacijah. To je posledica dodatnih ogrodij UIKit, ki jih mora Catalyst aplikacija poleg za Mac potrebnih komponent naložiti in izvajati.
 
 ## Primeri uporabe
 Mac Catalyst je odlična izbira, ko imamo že dodelano aplikacijo za iOS in bi jo z minimalnimi spremembami radi predelali za MacOS.
