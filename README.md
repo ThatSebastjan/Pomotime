@@ -5,19 +5,16 @@
 Je tehnologija, ki razvijalcem omogoča, da obstoječo kodo iPhone/iPad aplikacije prevajajo in poganjajo na macOS-u z minimalnimi spremembami v kodi.
 
 Za razvoj UI se na iOS/iPadOS aplikacijah uporablja ogrodje UIKit, ki pa kot tako ni primerno za uporabo na računalnikih, saj so vizualni elementi prilagojeni za interakcijo z dotikom. Catalyst v ozadju zato opravi veliko prilagoditev, ki aplikaciji dajo izgled in občutek povsem nativne aplikacije za macOS. To vključuje
-</br>
 - **Prevod vhoda:** Dotik preslika v klike miške, poteze sledilne ploščice in vnos s tipkovnice.
-</br>
 - **Prilagoditev vmesnika:** Samodejno prilagodi nekatere kontrole UIKit, da so videti kot njihovi ekvivalenti v macOS-u (npr. kontekstni meniji, integracija menijske vrstice).
-</br>
 - **Integracija funkcij macOS-a:** Omogoča dostop do funkcij, specifičnih za Mac, kot so menijska vrstica, bližnjice na tipkovnici in obnašanje oken
 
 Mac Catalyst je torej tehnologija, ki omogoča razvijalcu razvoj aplikaciije za iOS in MacOS z minimalnimi spremembami kode brez popolne reimplementacije grafičnega vmesnika za posamezne platforme.
 
-##Zakaj Mac Catalyst
+## Zakaj Mac Catalyst
 
 Že dalj časa sem me je zanimal razvoj za Apple platforme, predvsem jezik Swift, ki se mi zdi da je zasnovan, da je zelo prijazen za razvojalce in je v tem trenutku lahko uporabljen za tako back end kot tudi front end aplikacij. Catalyst pa se je kot del tega razvojnega okolja izkazal še za posebej zanimivo in uporabno orodje, ki lahko razvijalcu znatno olajša delo.
-</br>
+
 S tem namenom sem se poglobil v razumevanje delovanja in uporabe tega orodja.
 
 ## Prednosti
@@ -57,11 +54,11 @@ Mac Catalyst se lahko doda preko nastavitev projekta kot nova destinacija za dep
 ![](Examples/ProjectSettings.png)
 
 Vidimo da čeprav je aplkacija grajena za MacOS, Catalyst uporablja SDK namenjen razvoju na iOS.
-</br>
-Ker je pogosto uporabnoiški vmesknik ali druge funkcionslnosti aplikacije vseeno potrebno prilagoditi lahko za to uporabimo direktiva prevajalnika, npr. `#if targetEnvironment(macCatalyst)`
-</br>
+
+Ker je pogosto uporabniški vmesknik ali druge funkcionslnosti aplikacije vseeno potrebno prilagoditi lahko za to uporabimo direktiva prevajalnika, npr. `#if targetEnvironment(macCatalyst)`
+
 Primer v kodi:
-</br>
+
 ```swift
 #if targetEnvironment(macCatalyst)
     
