@@ -89,7 +89,7 @@ Primer v kodi:
     
   	#endif
   
- 	#if !targetEnvironment(macCatalyst)
+ 	#if !targetEnvironment(iOS)
 
     private let baseSize: CGFloat = 300
     
@@ -118,4 +118,5 @@ Primer v kodi:
     }
        
  	#endif 
- 	```
+
+```
